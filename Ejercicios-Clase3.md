@@ -33,6 +33,10 @@
    Da un error, debido a que cuando el sistema intenta ejecutar out-file se da cuenta que en ese momento el pipe esta vacio y no puede exportar nada.
 3. Cómo haría para crear un archivo delimitado por puntos y comas (;)?
    PISTA: Se emplea ``export-csv``, pero con un parámetro adicional.
+   Con el siguiente codigo se crea un archivo de los procesos con la información delimitada por puntos y comas.
+   ```console
+   Get-Process | export-csv procesos.csv
+   ```
 4. ``Export-cliXML`` y ``Export-CSV`` modifican el sistema, porque pueden crear
    y sobreescribir archivos. Existe algún parámetro que evite la
    sobreescritura de un archivo existente? Existe algún parámetro que
@@ -42,24 +46,42 @@
    Cómo se le dice a ``Export-CSV`` que emplee el separador del sistema en lugar
    de la coma?
 6. Identifique un cmdlet que permita generar un número aleatorio.
+```console
+   Get-Random
+```
 7. Identifique un cmdlet que despliegue la fecha y hora actuales.
+```console
+   Get-Date
+```
 8. Qué tipo de objeto produce el cmdlet de la pregunta 7?
+   
+   System.DateTime
 9. Usando el cmdlet de la pregunta 7 y ``select-object``, despliegue solamente
    el día de la semana, así:
-
+   
 ```console
    DayOfWeek
    ---------
     Thursday
 ```
+se usa: Get-Date | Select-Object -Property DayOfWeek
 
 10. Identifique un cmdlet que muestre información acerca de parches (hotfixes)
     instalados en el sistema.
+    
+    se usa: 
+     ```powershell
+    Get-HotFix 
+      ```
 11. Empleando el cmdlet de la pregunta 10, muestre una lista de parches
     instalados. Luego extienda la expresión para ordenar la lista por fecha
     de instalación, y muestre en pantalla únicamente la fecha de instalación,
     el usuario que instaló el parche, y el ID del parche. Recuerde examinar
     los nombres de las propiedades.
+    ```powershell
+    Get-HotFix | Select-Object -Property InstallDate,InstalledBy, HotFixID |  Sort-Object -Property InstallDate
+   ```
+   
 12. Complemente la solución a la pregunta 11, para que el sistema ordene los
     resultados por la descripción del parche, e incluya en el listado la
     descripción, el ID del parche, y la fecha de instalación.

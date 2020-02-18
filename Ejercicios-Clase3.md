@@ -41,10 +41,16 @@
    y sobreescribir archivos. Existe algún parámetro que evite la
    sobreescritura de un archivo existente? Existe algún parámetro que
    permita que el comando pregunte antes de sobresscribir un archivo?
+   ```console
+   Get-Process | Export-Csv procesos.csv -NoClobber
+   ```
 5. Windows emplea configuraciones regionales, lo que incluye el separador de
    listas. En Windows en inglés, el separador de listas es la coma (,).
    Cómo se le dice a ``Export-CSV`` que emplee el separador del sistema en lugar
    de la coma?
+   ```powershell
+   Set-WinUserLanguageList -LanguageList (New-WinUserLanguageList -Language en-GB) -Force
+   ``` 
 6. Identifique un cmdlet que permita generar un número aleatorio.
 ```console
    Get-Random
@@ -80,14 +86,20 @@ se usa: Get-Date | Select-Object -Property DayOfWeek
     los nombres de las propiedades.
     ```powershell
     Get-HotFix | Select-Object -Property InstallDate,InstalledBy, HotFixID |  Sort-Object -Property InstallDate
-   ```
+    ```
    
 12. Complemente la solución a la pregunta 11, para que el sistema ordene los
     resultados por la descripción del parche, e incluya en el listado la
     descripción, el ID del parche, y la fecha de instalación.
     Escriba los resultados a un archivo HTML.
+    ```powershell
+    Get-HotFix | Sort-Object -Property Description | Select-Object -Property Description, HotFixID, InstalledOn | ConvertTo-Html | Out-     file hotfix.html
+    ```
 13. Muestre una lista de las 50 entradas más nuevas del log de eventos System.
     Ordene la lista de modo que las entradas más antiguas aparezcan primero;
     las entradas producidas al mismo tiempo deben ordenarse por número índice.
     Muestre el número índice, la hora y la fuente para cada entrada. Escriba
     esta información en un archivo de texto plano.
+    ```powershell
+    Get-EventLog -LogName system -Newest 50| Sort-Object -Property TimeWritten,Index | Select-Object -Property Index, TimeWritten,           Source
+    ```
